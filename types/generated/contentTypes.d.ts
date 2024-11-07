@@ -368,12 +368,18 @@ export interface ApiGroupGroup extends Schema.CollectionType {
     singularName: 'group';
     pluralName: 'groups';
     displayName: 'Group';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String;
+    people: Attribute.Relation<
+      'api::group.group',
+      'oneToMany',
+      'api::person.person'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -406,13 +412,18 @@ export interface ApiPersonPerson extends Schema.CollectionType {
   attributes: {
     name: Attribute.String;
     surname: Attribute.String;
-    email: Attribute.Email;
     gender: Attribute.Enumeration<['male', 'female', 'other']>;
-    user_generated: Attribute.Relation<
+    user: Attribute.Relation<
       'api::person.person',
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    group: Attribute.Relation<
+      'api::person.person',
+      'manyToOne',
+      'api::group.group'
+    >;
+    birthdate: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -700,7 +711,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &

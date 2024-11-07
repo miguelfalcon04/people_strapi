@@ -18,9 +18,6 @@
     "surname": {
       "type": "string"
     },
-    "email": {
-      "type": "email"
-    },
     "gender": {
       "type": "enumeration",
       "enum": [
@@ -29,11 +26,20 @@
         "other"
       ]
     },
-    "user_generated": {
+    "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "person"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::group.group",
+      "inversedBy": "people"
+    },
+    "birthdate": {
+      "type": "date"
     }
   }
 }
